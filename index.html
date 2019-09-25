@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no, viewport-fit=cover">
+    <title>开启动画</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="vadio">
+            <video src="./video/10.mp4" autoplay="autoplay" muted></video>
+        </div>
+        <div class="title">
+            <p class="title1">世界，</p>
+            <p class="title2">触手可及</p>
+        </div>
+        <div class="welcome">
+                <span>welcome to YOYO chat</span>
+        </div>
+    </div>
+</body>
+<script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    var video = document.querySelector('video');
+    video.oncanplay = function () {
+        console.log('play')
+    }
+    video.ontimeupdate = function (data) {
+        if (video.duration - video.currentTime < 3) {
+            console.log('4000')
+            $('.title').css('opacity','1')
+            $('.title').css('top','100px')
+        }
+
+        if(video.duration - video.currentTime<3){
+        $('.welcome').css('opacity','1')
+        $('.welcome').css('bottom','100px')
+        }
+        video.onended =function(){
+        console.log('end');
+        location.href='./html/login.html'
+    }
+    }
+    console.log(video.onended)
+    video.ondblclick = function () {
+        console.log('ada')
+        return;
+    }
+    console.log(video)
+</script>
+
+</html>

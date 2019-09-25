@@ -1,0 +1,100 @@
+*{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+/* 内容 */
+#content{
+    height: 100%;
+    width: 100%;
+    margin-bottom: 1.6rem;
+    overflow-y: auto;
+}
+.boxInp{
+    width: 100%;
+    height: 1.066667rem;
+    text-align: center;
+    line-height: 1.066667rem;
+    position: relative;
+    background: #fff;
+    padding-top: .266667rem;
+}
+.boxInp span{
+    position: absolute;
+    top: 69%;
+    right: 50%;
+    transform: translate(-.4rem,-50%);
+    font-size: .56rem;
+    color: #999999;
+}
+#inp{
+    width: 9.2rem;
+    height: .8rem;
+    text-align: center;
+    border-radius: .533333rem;
+    border: none;
+    font-size: .426667rem;
+    color: #999999;
+    background: #e6e1e1;
+}
+
+body:hover a{
+    text-decoration: none;
+}
+.newFriend{
+    line-height: 1.146667rem;
+    width: 100%;
+    background: #fff;
+    
+}
+.newFriend a{
+    margin-left: .4rem;
+    color: #333;
+    font-size: .426667rem;
+    overflow-y:scroll;
+
+}
+.mui-collapse{
+    overflow-y:scroll;
+}
+.mui-navigate-right{
+    font-size: .426667rem;
+}
+.children1 img{
+    height: 1.146667rem;
+    width: 1.146667rem;
+    border-radius: 50%;
+    vertical-align: middle;
+    
+}
+.childrenName{
+    display: inline-block;
+    vertical-align: middle;
+    font-size: .426667rem;
+}
+.childrenName p{
+    font-size: .32rem;
+}
+.children1 button{
+    float: right;
+    vertical-align: middle;
+    border-radius: .4rem;
+    padding: .133333rem .4rem;
+    margin-top: .133333rem;
+}
+
+
+
+.bottom_content li:nth-child(1) a{
+    color: darkgray !important;
+}
+.bottom_content li:nth-child(1) p{
+    color: darkgray !important;
+}
+
+.bottom_content li:nth-child(2) a{
+    color: rgb(255,100,60);
+}
+.bottom_content li:nth-child(2) p{
+    color: rgb(255,100,60);
+}

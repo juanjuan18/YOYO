@@ -1,0 +1,98 @@
+*{
+    list-style: none;
+}
+body{
+    width: 10rem;
+    height: 17.786667rem;
+    background-color: rgb(245,245,250);
+}
+*{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+}
+
+
+a:hover{
+    text-decoration:none !important;
+}
+
+a:active{
+    text-decoration:none !important;
+    color: #999999;
+}
+.nav{
+    width: 10rem;
+    height: 1.333333rem;
+    /* border: 1px solid black; */
+    font-size: .426667rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.nav span{
+    margin-right: 3.2rem;
+
+}
+.mui-icon-arrowleft{
+    font-size: .933333rem;
+    color:black;
+    text-decoration: none;
+}
+.boxInp{
+    width: 9.333333rem;
+    height:1rem;
+    margin-top:0.4rem;
+    margin-left: .4rem;
+    background: white;
+    border-radius: .533333rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.boxInp span{
+    width: 0.5rem;
+    font-size: .56rem;
+    color: #999999;
+    margin-left: .266667rem;
+}
+#search_username{
+    width: 6.666667rem;
+    height:1rem;
+    border: none;
+    font-size: .373333rem;
+    margin-top: .4rem;
+}
+#search_friend{
+    font-size:.426667rem;
+    margin-right: .266667rem;
+    border: none;
+    color: #999999;
+}
+#newfriend{
+    margin-top: .533333rem;
+}
+
+ul li{
+    width: 10rem;
+    height: 2.133333rem;
+    background-color: white;
+    display: flex;
+    /* justify-content: space-between; */
+    align-items: center;
+}
+.friendList img{
+    width: 1.333333rem;
+    height: 1.333333rem;
+    border-radius: 50%;
+    border: #999999;
+    margin-left: .533333rem
+}
+.listleft{
+    margin-left: .266667rem;
+    
+}
+.listleft p{
+    color: black;
+}

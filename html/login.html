@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>用户登录</title>
+    <link rel="stylesheet" href="../css/login.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="content">
+            <img class="logo" src="../img/1.png" alt="">
+            <div class="menban"></div>
+            <div>
+                <img class="user_icon" src="../img/user.png" alt="">
+                <input id="login_username" type="text" placeholder="用户账号">
+            </div>
+            <div>
+                <img class="pwd" src="../img/password.png" alt="">
+                <input id="login_pw" type="password" placeholder="用户密码"></div>
+        </div>
+        <div id="login_submit"><img src="../img/right.png" alt=""></div>
+
+        <a href="#"><span class="unremenber">忘记密码</span></a>
+        <a href="registered.html"><span class="registered">用户注册</span></a>
+    </div>
+    </div>
+</body>
+<script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    $(function () {
+        localStorage.clear()
+        $('#login_submit').on('click', function () {
+            let login_username = $('#login_username').val();
+            let login_pw = $('#login_pw').val();
+            // let nickname = $('#nickname').val();
+            // $('#login_username').val('')
+
+
+            if (!login_username || !login_pw) {
+                alert('有必填项未填');
+                return;
+            }
+
+            $.ajax({
+                url: 'http://118.24.25.7/chat_api/interface/login.php',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    password: login_pw,
+                    username: login_username
+                },
+                success: function (res) {
+                    console.log(res)
+                    let userinf = JSON.stringify(res.data)//将data的对象保存在localStorage的userinf里转换为字符串
+                    localStorage.userinf = userinf
+
+                    if (res.code == 0) {
+                        console.log('登录成功')
+                        console.log(res.data.head_logo);//return false;
+                        location.href = `./messageList.html?q=${userinf.head_logo}`
+                        localStorage.setItem('head_logo', 'chat_api' + res.data.head_logo)
+
+                    } else {
+                        alert(res.msg);
+                    }
+                },
+                error: function (res) {
+
+                }
+            })
+        })
+    })
+
+
+</script>
+
+</html>

@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/mui.min.css">
+    <link rel="stylesheet" href="../css/friendsList.css">
+    <link rel="stylesheet" href="../css/head_bottom.css">
+    <link rel="stylesheet" href="../css/iconfont.css">
+
+
+</head>
+
+<body>
+    <header>
+        <div class="container head_content">
+            <div href="" class="user_head_pic"><img src="" alt="" class="head_logo"></div>
+            <span>联系人</span>
+            <a href="../html/search_friend.html" class="mui-icon mui-icon-plusempty"></a>
+        </div>
+    </header>
+    <div class="zhanwei"></div>
+    <!-- 内容 -->
+    <div id="content">
+        <div class="boxInp">
+            <a href="../html/search_myfriend.html">
+                <span class="mui-icon mui-icon-search"></span>
+                <input id="inp" type="text" value="搜索">
+            </a>
+        </div>
+
+        <div class="newFriend">
+            <a href="../html/newFriend.html">新朋友</a>
+        </div>
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell mui-collapse" id="friend">
+                <a class="mui-navigate-right" id="friends" href="#">我的好友</a>
+
+            </li>
+        </ul>
+    </div>
+    <!-- 底部 -->
+    <footer>
+        <ul class="bottom_content">
+            <li>
+                <a href="messageList.html" class="txt txt1">
+                    <i class="mui-icon mui-icon-chat"></i>
+                    <p class="message">消息</p>
+                    <span id="number"></span>
+                </a>
+            </li>
+            <li>
+                <a href="friendsList.html" class="txt txt2">
+                    <i class="iconfont icon-haoyou" id="friend"></i>
+                    <p class="friend1">好友</p>
+                    <span id="number1"></span>
+                </a>
+            </li>
+            <li>
+                <a href="moments.html" class="txt txt3">
+                    <i class="mui-icon mui-icon-pengyouquan"></i>
+                    <p class="pengyouquan">朋友圈</p>
+
+                </a>
+            </li>
+            <li id="person">
+                <a href="#" class="txt txt4">
+                    <i class="mui-icon mui-icon-contact"></i>
+                    <p class="personal">个人中心</p>
+                </a>
+            </li>
+        </ul>
+    </footer>
+    <div class="wrap">
+        <div class="personal_head">
+            <a href="" class="user_logo"><img src="" alt="" class="head_logo"></a>
+            <div class="user_info">
+                <h2 class="username"></h2>
+                <input type="text" placeholder="个性签名" value="想要这样一间小木屋，夏天挫冰吃瓜，冬天围炉取暖."></input>
+            </div>
+            <div href="" class="mui-icon mui-icon-closeempty tuichu"></div>
+        </div>
+        <div class="personal_content">
+            <ul class="person_list">
+                <li>
+                    <a href="">
+                        <i class="mui-icon mui-icon-camera right_icon"></i>
+                        <span class="userimg">更改头像
+                            <input type="file" id="userimg">
+                        </span>
+                        <i class="mui-icon mui-icon-arrowright left_icon"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <i class="mui-icon mui-icon-home right_icon"></i>
+                        <span>设置</span>
+                        <i class="mui-icon mui-icon-arrowright left_icon"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <i class="mui-icon mui-icon-star right_icon"></i>
+                        <span>收藏</span>
+                        <i class="mui-icon mui-icon-arrowright left_icon"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <i class="mui-icon mui-icon-help right_icon"></i>
+                        <span>遇到问题</span>
+                        <i class="mui-icon mui-icon-arrowright left_icon"></i>
+                    </a>
+                </li>
+                <li id="logout">
+                    <a>
+                        <i class="mui-icon mui-icon-gear right_icon"></i>
+                        <span>退出登录</span>
+                        <i class="mui-icon mui-icon-arrowright left_icon"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</body>
+
+<script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+<script src="../js/mui.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+
+<script>
+
+    $('#person').on('click', function () {
+        $('.wrap').css('left', "0")
+    })
+
+    let url1 = 'http://118.24.25.7/chat_api/interface/getFriendRequests.php'
+    let userinfo = localStorage.userinf ? JSON.parse(localStorage.userinf) : null;
+
+    function getFriendApply() {
+
+        $.ajax({
+            url: url1,
+            type: "GET",
+            dataType: 'json',
+            timeout: 10000,
+            data: {
+                user_id: userinfo.id,
+                sign_str: userinfo.sign_str,
+            },
+            success: function (res) {
+                if (res.code != 0) {
+                    getFriendApply()
+                }
+                let data = res.data;
+                console.log(data)
+
+                let number = data.length
+                console.log('number' + number)
+                if (number > 0) {
+                    $('#number1').html('')
+                    $('#number1').css('background', 'red')
+                }
+                $('#number1').html(number)
+
+            },
+            error: function (res) {
+                console.log(2);
+                getFriendApply()
+            }
+
+        })
+
+    }
+
+    getFriendApply();
+
+
+    $('#person').on('click', function () {
+        $('.wrap').css('left', "0")
+    })
+
+
+    // 登出接口:
+    $('#logout').on('click', function () {
+        console.log(111)
+        $.ajax({
+            url: 'http://118.24.25.7/chat_api/interface/logout.php',
+            type: "POST",
+            dataType: 'json',
+            data: {
+                sign_str: userinfo.sign_str,
+                user_id: userinfo.id,
+            },
+            success: function (res) {
+                console.log(res);
+                if (res.code == 0) {
+                    console.log(res)
+                    console.log('退出')
+                    localStorage.clear()
+                    location.href = "login.html"
+                }
+            },
+            error: function (res) {
+                console.log(res);
+            }
+
+        })
+    })
+
+
+
+    console.log(localStorage.head_logo)
+
+    $('.head_logo').attr('src', `http://118.24.25.7/${localStorage.head_logo}`)//从localStorage取路径添加至图像
+
+
+    $('.user_head_pic').on('click', function () {
+        // $('#userimg').css('display','block')
+        $('.wrap').css({
+            'z-index': 10,
+            left: 0
+        })
+    })
+    $('.tuichu').on('click', function () {
+        $('.wrap').css('left', "-10rem")
+    })
+    console.log(localStorage)
+    var us_info = localStorage.userinf ? JSON.parse(localStorage.userinf) : {}
+    console.log(us_info.username)
+    $('.username').text(us_info.nickname)
+    // $('.head_logo').attr("src",'118.24.25.7/chat_api/image'+ us_info.head_logo);
+
+</script>
+<script>
+    var date = ''
+    //获取好友列表接口：
+    let url11 = 'http://118.24.25.7/chat_api/interface/getFriends.php'
+    function friendList() {
+        $.ajax({
+            url: url11,
+            type: "GET",
+            dataType: 'json',
+            data: {
+                sign_str: userinfo.sign_str,
+                user_id: userinfo.id
+            },
+            success: function (res) {
+                console.log(res);
+                date = res.data
+                localStorage.friendList = JSON.stringify(date);
+                for (const item of date) {
+                    // let userinf = JSON.stringify(item)//将data的对象保存在localStorage的userinf里转换为字符串
+                    // console.log(userinf)
+
+                    // localStorage.userinf = userinf
+
+                    if (res.code == 0) {
+                        // console.log(1)
+
+                        console.log('获取好友列表成功')
+                       console.log(item.online)
+                    // if(item.online==0){
+                    //     $('.children1').css('opacity','0.5')
+                    // }
+                        let html = `
+                    <a class="mui-collapse-content children1">
+                        <img src="http://118.24.25.7/chat_api/${item.head_logo}" alt="">
+                        <div class="childrenName">
+                            <h3>${item.nickname}</h3>
+                        </div>
+                    </a>`;
+                        $('#friend').append(html)
+                    }
+                }
+            },
+            error: function (res) {
+                console.log(res);
+            }
+
+        })
+
+
+    }
+    friendList()
+
+
+    $('.mui-collapse').on('click', '.children1', function () {
+        var i = $(this).index() - 1
+        console.log(date[i])
+        location.href = `../html/friendDetails.html?q=${date[i].user_id}`
+        // head_logo: "/image/default_head.jpg"
+        // nickname: "renanan"
+        // online: "1"
+        // onlinechat_number: "4433081"
+        // user_id: "27"
+    })
+
+    let url8 = 'http://118.24.25.7/chat_api/interface/upload.php'
+    $('#userimg').on('change', function () {
+        let file = this
+        if (!file.files || !file.files[0]) {
+            return
+        }
+        let ss = new FormData()
+        ss.append('file', file.files[0])
+        $.ajax({
+            url: url8,
+            type: "POST",
+            dataType: 'json',
+            data: ss,
+            processData: false,
+            contentType: false,
+            success: function (res) {
+                console.log(res);
+                if (res.code == 200) {
+                    console.log(res)
+                    $('.head_logo').attr('src', `http://118.24.25.7${res.data.path}`)
+                    localStorage.setItem('head_logo', `${res.data.path}`);
+                    console.log(localStorage.head_logo)
+                    console.log('上传成功')
+                }
+            },
+            error: function (res) {
+                console.log(res);
+            }
+
+        })
+
+    })
+    let num = [];
+    let sum = 0;
+    let messnumber = 0
+    date = localStorage.friendList ? JSON.parse(localStorage.friendList) : {}
+    // for (var i = 0; i < date.length; i++) {
+    //     console.log(date[i].user_id)
+    // }
+    //获取历史消息记录:
+    let history = []
+    let id = [];
+    let url13 = 'http://118.24.25.7/chat_api/interface/getChatHistory.php'
+    function getChatHistory() {
+        // console.log(1)
+        var message_arr = [];
+        for (var i = 0; i < date.length; i++) {
+            friend_id = date[i].user_id
+            $.ajax({
+                url: url13,
+                type: "GET",
+                dataType: 'json',
+                async: false,//同步
+                data: {
+                    sign_str: userinfo.sign_str,
+                    user_id: userinfo.id,
+                    friend_id: friend_id
+                },
+                success: function (res) {
+                    if (res.data.length == 0) {
+                        return false;;
+                    } else if (res.data.length > 0) {
+                        // history.push(res.data);
+                        // localStorage.history = JSON.stringify(history)
+                        if (res.code == 0) {
+                            message_arr.push(res.data);
+                        }
+                    }
+                }
+            })
+        }
+        var html = "";
+        var new_message_arr = [];
+        // console.log(message_arr);
+        for (var i = 0; i < message_arr.length; i++) {
+            var message_in = message_arr[i];
+            var message_sort = message_in.sort((a, b) => b.message_send_time - a.message_send_time);//获取每个好友的最新时间
+            var message_new = message_sort[0];//获取时间最大的一条
+            var message_number = message_in.length;//获取聊天条数（当前好友）
+            message_new['count'] = message_number;
+            new_message_arr.push(message_new);
+        }
+        page_render(new_message_arr);//页面渲染
+    }
+    //获取昵称
+    function get_nickname(user_id) {
+        for (var i in date) {
+            if (date[i]['user_id'] == user_id) {
+                return date[i]['nickname'];
+            }
+        }
+    }
+    //页面渲染
+    function page_render(arr) {
+        var arr = arr.sort((a, b) => b.message_send_time - a.message_send_time);//所有好友最新消息排序
+        var html = '';
+        for (var i = 0; i < arr.length; i++) {
+            var nickname = get_nickname(arr[i]['user_id']);//获取昵称
+            num[i] = arr[i]['count'];
+            sum = eval(num.join("+"));
+        }
+        $('#number').css('display','block').html(sum);
+    }
+    getChatHistory()
+    setInterval(getChatHistory, 2000)
+
+</script>
+
+</html>

@@ -1,0 +1,56 @@
+*{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+}
+body:hover a{
+    text-decoration: none;
+}
+.message_list_head{
+    width: 100%;
+    height: 2.133333rem;
+    background: white;
+    display: flex;
+    padding-top: .533333rem;
+    padding-bottom: .4rem;
+    justify-content: center;
+}
+.boxInp{
+    width: 100%;
+    height: 1.066667rem;
+    text-align: center;
+    line-height: 1.066667rem;
+    position: relative;
+    background: #fff;
+}
+.boxInp span{
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(-.4rem,-50%);
+    font-size: .56rem;
+    color: #999999;
+}
+#inp{
+    width: 9.2rem;
+    height: .8rem;
+    text-align: center;
+    border-radius: .533333rem;
+    border: none;
+    font-size: .426667rem;
+    color: #999999;
+    background: rgb(245, 246, 250);
+    margin: 0;
+}
+.mui-media-body h2{
+    font-size: .533333rem;
+}
+.mui-pull-left{
+    border-radius: 50%;
+}
+.mui-ellipsis{
+    font-size: .373333rem;
+}
+
+

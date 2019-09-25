@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/moments.css">
+    <link rel="stylesheet" href="../css/mui.min.css">
+    <script src="../js/mui.min.js"></script>
+</head>
+
+<body>
+    <div class="mui-slider">
+            <a href="friendsList.html
+            " class="mui-icon mui-icon-back"></a>
+        <div class="mui-slider-group mui-slider-loop">
+            <!--支持循环，需要重复图片节点-->
+            <div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img src="../img/jj.jpg" /></a></div>
+            <div class="mui-slider-item"><a href="#"><img src="../img/header_banner7.jpg" /></a></div>
+            <div class="mui-slider-item"><a href="#"><img src="../img/header_banner8.jpg" /></a></div>
+            <div class="mui-slider-item"><a href="#"><img src="../img/header_banner9.jpg" /></a></div>
+            <div class="mui-slider-item"><a href="#"><img src="../img/jj.jpg" /></a></div>
+            <!--支持循环，需要重复图片节点-->
+            <div class="mui-slider-item mui-slider-item-duplicate"><a href="#"><img src="../img/header_banner7.jpg" /></a></div>
+        </div>
+        <span class="mui-icon mui-icon-compose"></span>
+    </div>
+    <!-- <div class="bg  ">
+        <a href="friendsList.html
+        " class="mui-icon mui-icon-back"></a>
+        <span class="mui-icon mui-icon-compose"></span>
+    </div> -->
+
+    <div class="texBox">
+        <p class="fanhui">取消</p>
+
+        <!-- <img src="../img/2.jpg" alt="" id="newImage" style="border: 1px solid black;width: 200px;height: 100px;"> -->
+        <!-- <input type="file" class="userimg"> -->
+        <div class="one">
+            <input id="inp" type="text" placeholder="这一刻的想法...">
+            <img src="" alt="" id="newImage1">
+        </div>
+        <span class="mui-icon mui-icon-camera">
+            <input class="weui_uploader_input" name='image' type="file" accept="image/*" multiple />
+        </span>
+        <button id="send">发布</button>
+    </div>
+    <div id="tex">
+        <!-- <div></div>
+        <p class="text"></p> -->
+    </div>
+
+    <script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+
+    <script>
+        let kk = ''
+        $("input[type='file']").change(function () {
+            var file = this.files[0];
+            if (window.FileReader) {
+                var reader = new FileReader();
+                reader.readAsDataURL(file);
+                //监听文件读取结束后事件    
+                reader.onloadend = function (e) {
+                    $(".weui_uploader_file").css("background-image", "url(" + e.target.result + ")");
+                    console.log(e.target.result)
+                    kk = e.target.result;
+                    $('#newImage1').attr('src', kk)
+                    //e.target.result就是最后的路径地址
+                };
+            }
+        });
+        var $span = $('.mui-icon-compose')
+        var $texBox = $('.texBox')
+        var text = document.getElementsByClassName('text')
+        $span.on('click', function () {
+            $texBox.css('display', 'block')
+            $('.mui-slider').css('display', 'none')
+            $('#tex').css('display', 'none')
+            $('.fanhui').css('display', 'block')
+            $('#newImage1').attr('src', 'none')
+
+
+        })
+        $('.texBox>p').on('click', function () {
+            $texBox.css('display', 'none')
+            $('.mui-slider').css('display', 'block')
+            $('#tex').css('display', 'block')
+            $('.fanhui').css('display', 'none')
+        })
+        $('#send').on('click', function () {
+            let html = `<div>
+                <img src="../img/3.jpg" alt="">猪儿虫
+                </div>
+                <p class="text">${$('#inp').val()}</p>
+                <img src="${kk}" alt="" id="newImage" >
+                `
+            $('#tex').prepend(html)
+            $texBox.css('display', 'none')
+            $('.mui-slider').css('display', 'block')
+            $('#tex').css('display', 'block')
+            $('#inp').val('')
+            // $('.weui_uploader_input').attr('type','')
+
+        })
+        // $('.fanhui').on('click',function)
+        // $('.userimg').on('change', function (imgFile) {
+        //     console.log(111)
+        //     // request.getParameter(String str)
+        //     
+        // })
+
+
+        //http://118.24.25.7/chat_api/
+        // sendMessage();
+        // $(".texBox").keydown(function (e) {
+        //     // console.log(11)
+        //     var e = e || event,
+        //         keycode = e.which || e.keyCode;
+        //     if (keycode == 13) {
+        //         $("#send").trigger("click");
+        //         // console.log(1)
+        //     }
+        // });
+    </script>
+</body>
+<script>
+    var gallery = mui('.mui-slider');
+    gallery.slider({
+        interval: 2000//自动轮播周期，若为0则不自动播放，默认为0；
+    });
+</script>
+
+</html>

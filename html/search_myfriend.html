@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/mui.css">
+    <link rel="stylesheet" href="../css/search_myfriend.css">
+</head>
+
+<body>
+    <!-- <div class="nav">
+                <div class="go_back"><a class="mui-icon  mui-icon-arrowleft" href="../html/friendsList.html"></a></div>
+                <span>添加好友</span>
+        </div>
+        
+        <div class="boxInp">
+            <span class="mui-icon mui-icon-search"></span>
+            <input id="search_username" type="text" value="" placeholder="账号/昵称">
+            <button id="search_friend">搜索</button>
+        </div>
+        
+        <ul id="newfriend"> -->
+    <div class="nav">
+        <div class="go_back"><a href="../html/friendsList.html" class="mui-icon  mui-icon-arrowleft" href="#"></a></div>
+        <span>搜索列表内好友</span>
+    </div>
+    <div class="boxInp">
+        <span class="mui-icon mui-icon-search"></span>
+        <input id="search_username" type="text" value="" placeholder="昵称/账号">
+    </div>
+    <ul id="newfriend">
+    </ul>
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+<script>
+    let url2 = 'http://118.24.25.7/chat_api/interface/getSearchUsers.php'
+    let userinfo = localStorage.userinf ? JSON.parse(localStorage.userinf) : null;//将保存在localStorage.userinf转化为对象
+    let friendList = localStorage.friendList ? JSON.parse(localStorage.friendList) : null;
+    let sfriend = localStorage.sfriend ? JSON.parse(localStorage.sfriend) : null;
+    let y;
+
+    // $('#target').keydown(function() 
+    function allUser() {
+        if (userinfo == null) {
+            alert('无权限')
+            return;
+        }
+
+        $('#search_username').keyup(function () {//键盘事件
+            // $('#search_friend').on('click', function () {
+            $('#newfriend').empty();
+            let username1 = $('#search_username').val()
+            $.ajax({
+                url: url2,
+                type: "GET",
+                dataType: 'json',
+
+                data: {
+                    user_id: userinfo.id,
+                    sign_str: userinfo.sign_str,
+                    search_text: username1,
+                },
+                success: function (res) {
+                    date = res.data
+                    if (res.code == 0) {
+                        let friend_id = JSON.stringify(res.data)
+
+                        let y = []//定义一个数组
+                        for (var i = 0; i < friendList.length; i++) {
+                            for (var j = 0; j < res.data.length; j++)
+                                if (friendList[i].user_id == res.data[j].id) {
+                                    y.push(res.data[j].id)
+                                    //把相等的id   push到数组里面
+                                    // $('#newfriend').append(`<li class="myFriend">
+                                    // <p>姓名：${res.data[j].username}昵称：${res.data[j].nickname}</p>
+                                    // </li>`)
+                                    if((res.data[j].head_logo).includes("/upload")){
+                                    $('#newfriend').append(`<li class="myFriend">
+                                    <div class="friendList">
+                                     <span><img src="http://118.24.25.7/${res.data[j].head_logo}"</span>
+                                     </div>
+                                     <div class="listleft">
+                                     <p>昵称：${res.data[j].nickname}</p>
+                                     <p>账号：${res.data[j].username}</P>
+                                     </div> 
+                                    </li>`)
+                                }
+                                else{
+                                    $('#newfriend').append(`<li class="myFriend">
+                                    <div class="friendList">
+                                     <span><img src="http://118.24.25.7/chat_api${res.data[j].head_logo}"</span>
+                                     </div>
+                                     <div class="listleft">
+                                     <p>昵称：${res.data[j].nickname}</p>
+                                     <p>账号：${res.data[j].username}</P>
+                                     </div> 
+                                    </li>`)
+                                }
+                                }
+                        }
+                        let sfriend = JSON.stringify(y)//将数组转化为json字符串
+                        localStorage.sfriend = sfriend//保存到local
+                        // console.log(sfriend[0])
+                        $('#newfriend').on('click', 'li', function () {
+                            var t = $(this).index()//当前下标
+                            console.log(y[t])
+                            location.href = `./friendDetails_search.html?q=${y[t]}`
+                        })
+                    }
+                },
+                error: function (res) {
+                    console.log(res);
+                    // allUser()
+                }
+            })
+        })
+    }
+    allUser()
+</script>
+</script>
+</html>
+</script>
+
+</html>

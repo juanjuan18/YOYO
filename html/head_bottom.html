@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/mui.min.css">
+    <link rel="stylesheet" href="../css/head_bottom.css">
+    <link rel="stylesheet" href="../css/iconfont.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="container head_content">
+            <div href="" class="user_head_pic"><img src="../img/user_head.jpg" alt="" class="head_logo"></div>
+            <span>消息</span>
+            <a href="" class="mui-icon mui-icon-bars"></a>
+        </div>
+    </header>
+    <div class="zhanwei"></div>
+    <section>
+
+    </section>
+    <footer>
+        <ul class="bottom_content">
+            <li>
+                <a href="" class="txt txt1">
+                    <i class="mui-icon mui-icon-chat"></i>
+                    <p class="message">消息</p>
+                    <span id="number">33</span>
+                </a>
+            </li>
+            <li>
+                <a href="" class="txt txt2">
+                    <i class="iconfont icon-haoyou" id="friend"></i>
+                    <p class="friend1">好友</p>
+
+                </a>
+            </li>
+            <li>
+                <a href="" class="txt txt3">
+                    <i class="mui-icon mui-icon-pengyouquan"></i>
+                    <p class="pengyouquan">朋友圈</p>
+
+                </a>
+            </li>
+            <li>
+                <a href="" class="txt txt4">
+                    <i class="mui-icon mui-icon-contact"></i>
+                    <p class="personal">个人中心</p>
+                </a>
+            </li>
+        </ul>
+    </footer>
+    <div class="wrap">
+        <div class="personal_head">
+            <a href="" class="user_logo"><img src="../img/user_head1.jpg" alt="" class="head_logo"></a>
+            <div class="user_info">
+                <h2 class="username"></h2>
+                <input type="text" placeholder="个性签名"></input>
+            </div>
+            <div href="" class="mui-icon mui-icon-closeempty tuichu"></div>
+        </div>
+        <div class="personal_content">
+            <ul class="person_list">
+                <li>
+                    <a href="">
+                        <i class="mui-icon mui-icon-gear right_icon"></i>
+                        <span>图片上传</span>
+                        <i class="mui-icon mui-icon-arrowright left_icon"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <i class="mui-icon mui-icon-gear right_icon"></i>
+                        <span>设置</span>
+                        <i class="mui-icon mui-icon-arrowright left_icon"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <i class="mui-icon mui-icon-gear right_icon"></i>
+                        <span>设置</span>
+                        <i class="mui-icon mui-icon-arrowright left_icon"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <i class="mui-icon mui-icon-gear right_icon"></i>
+                        <span>设置</span>
+                        <i class="mui-icon mui-icon-arrowright left_icon"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <i class="mui-icon mui-icon-gear right_icon"></i>
+                        <span>账号管理</span>
+                        <i class="mui-icon mui-icon-arrowright left_icon"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+<script>
+    $('.user_head_pic').on('click', function () {
+        $('.wrap').css('left', "0")
+    })
+    $('.tuichu').on('click', function () {
+        $('.wrap').css('left', "-10rem")
+    })
+    console.log(localStorage.getItem("username"))
+    var us_info=localStorage.user_info?JSON.parse(localStorage.user_info):{}
+    console.log(us_info.username)
+    $('.username').text(us_info.username)
+    $('.head_logo').attr("src",us_info.head_logo);
+    
+</script>
+
+</html>

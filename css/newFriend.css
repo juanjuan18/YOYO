@@ -1,0 +1,78 @@
+*{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.content{
+    width: 10rem;
+    height: 17.786667rem;
+    background-color: rgb(245,245,250);
+}
+.nav{
+    width: 10rem;
+    height: 1.333333rem;
+    line-height: 1.333333rem;
+    font-size: .426667rem;
+    background-color: white;
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+}
+.nav a{
+    margin-top: .24rem;
+}
+.nav img{
+    width: .8rem;
+    height: .8rem;
+}
+.nav p{
+    margin-right: 4.4rem;
+}
+.mui-table-view{    
+    margin-top: .266667rem;
+   border: none;
+    background-color: white;
+
+}
+.children1{
+    padding: .266667rem .4rem;
+    /* border-top: 1px solid #999; */
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+.children1 img{
+    height: 1.6rem;
+    width: 1.6rem;
+    border-radius: 50%;
+    border: 1px solid #fff;
+}
+.chulihao{
+    margin-left: .266667rem;
+}
+.childrenName{
+    font-size: .426667rem;
+    margin-bottom: .133333rem;
+    margin-left: .213333rem;
+}
+.chuli{
+    margin-top: .266667rem;
+    width: 8rem;
+}
+.chuli button{
+   font-size: .373333rem;
+   padding: .133333rem .133333rem;
+  border-radius: .266667rem;
+  margin-left: .186667rem;
+  border: none;
+  background-color: rgb(232, 232, 233);
+}
+.date{
+    font-size: .32rem;
+    margin-top: .106667rem;
+    color: #999;
+    position: absolute;
+    left: 5.8rem;
+    top: .3rem;
+    z-index: 4;
+}

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/registered.css">
+     <!-- <link rel="stylesheet" href="../css/mui.min.css"> -->
+</head>
+<body>
+    <div class="container">
+       
+        <div class="content">
+              <div class="return"> <a href="./login.html"><img src="../img/left.png" alt=""></a></div> 
+            <div class="menban"></div>
+            <div class="username">
+                <span>用户名：</span>
+                <input id="username" type="text" name="" id="">
+               <span id="inner"></span>
+            </div>
+            <div class="nickname">
+                <span class="">昵称：</span>
+                <input id="nickname" type="text">
+            </div>
+            <div class="pw">
+                <span>密码：</span>
+                <input id="pw" type="password">
+                <span id="innerPd"></span>
+            </div>
+            <div id="form_submit">注册</div>
+
+        </div>
+    </div>
+</body>
+<script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    $('#username').on('blur', function () {
+                var patrn=/^[a-zA-Z]{1,17}[0-9]{0,}/;
+                console.log(patrn.test($('#username').val()))
+                if ($('#username').val().length < 6) {
+                    $('#inner').text('用户名长度不小于6！')
+                    $("#form_submit").attr("disabled",true);
+                }else if(!patrn.test($('#username').val())){
+                    $('#inner').text('用户名必须以字母开头！')
+                    // console.log('111')
+                    $("#form_submit").attr("disabled",true);
+                    
+                }
+                else {
+                    $('#inner').text('');
+                    $("#form_submit").attr("disabled",false);
+                }
+            })
+
+            $('#pw').on('blur',function(){
+                var patrn2=/^(\w){6,20}$/;
+                // console.log('111')
+                // if($('#pw').val().length < 6){
+                //     $('#innerPd').text('密码长度不小于6！')
+                // }else 
+                if(!patrn2.test($('#pw').val())){
+                    $('#innerPd').text('密码只能输入6-20个字母、数字、下划线！')
+                    $("#form_submit").attr("disabled",true);
+                }
+                else{
+                    $('#innerPd').text('')
+                    $("#form_submit").attr("disabled",false);
+                }
+            })
+
+    $(function () {
+        $('#form_submit').on('click', function () {
+            let username = $('#username').val();
+            let pw = $('#pw').val();
+            let nickname = $('#nickname').val();
+            if (!username || !pw || !nickname) {
+                alert('有必填项未填');
+                return;
+            }
+            $.ajax({
+                url: 'http://118.24.25.7/chat_api/interface/reg.php',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    nickname: nickname,
+                    password: pw,
+                    username: username
+                },
+                success: function (res) {
+                    console.log(res)
+                    if (res.code == 0) {
+                        if (confirm('注册成功，是否跳转到登陆页面')) {
+                            location.href = "login.html"
+                        }
+                    } else {
+                        alert(res.msg);
+                    }
+                },
+                error: function (res) {
+
+                }
+            })
+        })
+    })
+    // let userinfo = JSON.stringify(res.data);
+    // localStorage.userinfo  = userinfo;
+    // let ainfo = localStorage.userinfo ? JSON.parse(localStorage.userinfo) : {}
+
+</script>
+</html>

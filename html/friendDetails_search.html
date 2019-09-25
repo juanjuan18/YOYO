@@ -1,0 +1,184 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/friendDetails_search.css">
+</head>
+
+<body>
+    <header>
+        <img src="../img/detail.gif" alt="">
+        <a href="javascript:history.go(-1)">返回</a>
+    </header>
+    <section>
+        <img src="../img/detail.jpg" alt="" class="logo">
+        <h2 id="username"></h2>
+        <ul class="lise">
+            <li>性别</li>
+            <li>地区</li>
+            <li>个性签名</li>
+            <li>我的朋友圈</li>
+        </ul>
+    </section>
+    <div id="shifoufriend" class="xuan"><button id="add">添加好友</button></div>
+</body>
+<script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+<script src="../js/mui.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    let url7 = 'http://118.24.25.7/chat_api/interface/getUserInfo.php';
+    let url11 = 'http://118.24.25.7/chat_api/interface/getFriends.php'
+    let url9 = 'http://118.24.25.7/chat_api/interface/removeFriend.php';
+
+    function getUserInfo() {
+        let userinfo = localStorage.userinf ? JSON.parse(localStorage.userinf) : null;
+        let friend_i = localStorage.friend_id ? JSON.parse(localStorage.friend_id) : null;
+        let friendList = localStorage.friendList ? JSON.parse(localStorage.friendList) : null;
+
+        //解析上个页面传来的q
+        var s;
+        var url = window.location.href;
+        function parseURL(url) {
+            var url = url.split("?")[1];
+            var para = url.split("&");
+            var len = para.length;
+            var res = {};
+            var arr = [];
+            for (var i = 0; i < len; i++) {
+                arr = para[i].split("=");
+                res[arr[0]] = arr[1];
+            }
+            var q = res.q;
+            return q;
+        }
+      
+
+
+
+
+        //搜索用户信息
+        $.ajax({
+            url: url7,
+            type: "GET",
+            dataType: 'json',
+            data: {
+                user_id: userinfo.id,
+                sign_str: userinfo.sign_str,
+                friend_id: parseURL(url)
+            },
+            success: function (res) {
+                data = res.data
+                // console.log(data);
+                s = data[0].id
+                var n = friendList.length
+                // console.log(s)
+                $('#username').text(res.data[0].username)
+                if (res.code == 0) {
+                    console.log('好友的数量'+n)
+                    console.log('当前的id：'+res.data[0].id)
+                    if (n != 0) {
+                        // console.log(friendList[0].user_id)
+                        for (var i = 0; i <n; i++) {
+                            if (friendList[i].user_id == res.data[0].id) {//判断搜所到的用户是不是自己的好友
+                                // console.log(friendList[i].user_id)
+                                // console.log(res.data[0].id)
+                                // console.log(5555)
+                                // console.log(friendList)
+                                // console.log(555)
+                                // console.log(i)
+                                $(' <div id="shifoufriend" class="xuan"><button id="first">发消息</button><button id="delet">删除好友</button></div>').replaceAll('#shifoufriend')
+                                break;
+                            }
+                        }
+                    }
+                    // else {
+                    //     // $(' <div id="shifoufriend" class="xuan"><button id="add">添加好友</button></div>').replaceAll('#shifoufriend')
+                    //     // <div id="shifoufriend" class="xuan"><button id="first">发消息</button><button>删除好友</button></div>
+                    // }
+
+                    $("#first").on('click',function(){
+        console.log('ssss')
+        location.href = `../html/chat.html?q=${res.data[0].id}`
+    })
+
+
+
+
+    $('#delet').on('click', function () {
+            console.log(1)
+            let friend_id = $('#user_id').val()
+            $.ajax({
+                url: url9,
+                type: "POST",
+                dataType: 'json',
+                data: {
+                    user_id: userinfo.id,
+                    sign_str: userinfo.sign_str,
+                    friend_id: parseURL(url)
+                },
+                success: function (res) {
+                    console.log(res);
+                    if (res.code == 0) {
+                        console.log('删除成功')
+                        alert('删除成功')
+                        location.href = '../html/friendsList.html'
+                    }
+                },
+                error: function (res) {
+                    console.log(res);
+                }
+
+            })
+        })
+                    $('#add').on('click', function () {
+                        console.log(5555)
+                        $.ajax({
+                            url: 'http://118.24.25.7/chat_api/interface/addFriend.php',
+                            type: "POST",
+                            dataType: 'json',
+                            data: {
+                                user_id: userinfo.id,
+                                sign_str: userinfo.sign_str,
+                                friend_user_id: s
+                            },
+                            success: function (res) {
+                                console.log(res);
+                                if (res.code == 0) {
+                                    alert('申请好友成功,请等待好友回复')
+                                    console.log('申请好友成功')
+                                }
+                            },
+                            error: function (res) {
+                                console.log(res);
+                            }
+                        })
+                    })
+                }
+            },
+            error: function (res) {
+                console.log(res);
+            }
+        })
+
+
+
+
+
+
+    }
+    getUserInfo()
+
+
+    // $("#first").on('click',function(){
+    //     console.log('ssss')
+    //     location.href = `../html/chat.html?q=${data[0].user_id}`
+    // })
+
+</script>
+
+</html>

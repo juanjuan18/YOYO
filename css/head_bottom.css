@@ -1,0 +1,289 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+header{
+    width: 100%;
+    height: 1.066667rem;
+    background-color: rgb(221, 221, 221);
+    position: fixed;
+    z-index: 10;
+    left: 0;
+    top: 0;
+}
+.container{
+    width: 9.2rem;
+    margin: 0 auto;
+    /* border: 1px solid #000; */
+}
+.head_content{
+    
+    height: 1.066667rem;
+}
+.user_head_pic{
+    width: .8rem;
+    height: .8rem;
+    border-radius: 50%;
+    display: inline-block;
+    overflow: hidden;
+}
+.user_head_pic img{
+    width: .8rem;
+    height: .8rem;
+}
+.head_content{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.head_content span{
+    font-size: .426667rem;
+    color: white;
+}
+.head_content a{
+    color: white;
+    text-decoration: none;
+}
+header .mui-icon-plusempty{
+    font-size: 40px;
+}
+.zhanwei{
+    width: 100%;
+    height: 1.066667rem;
+}
+.mui-ellipsis{
+    width: 6.933333rem;
+}
+#jiaobiao{
+    top:66%;
+}
+.time{
+    position: absolute;
+    right: .4rem;
+    top: .266667rem;
+}
+section{
+    width: 100%;
+    /* min-height: 15.386667rem; */
+    /* height: 24rem; */
+    background:rgb(255，100，60);
+    position: relative;
+}
+.content{
+    width: 100%;
+    /* height: 16rem; */
+    background: blue;
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: none;
+}
+.content2{
+    background: red;
+}
+.content3{
+    background: deeppink;
+}
+.content4{
+    background: rgb(55, 231, 11);
+}
+footer{
+    width: 100%;
+    height: 1.6rem;
+    background-color: rgb(255, 255, 255);  
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 10;
+    
+}
+.bottom_content{
+    width: 100%;
+    height: 1.6rem;
+    
+    /* border: 1px solid #000; */
+}
+.bottom_content li{
+    width: 2.5rem;
+    height: 1.6rem;
+    color: darkgray;
+    /* background: darkblue; */
+    float: left;
+}
+.bottom_content li a{
+    text-align: center;
+    width: 2.5rem;
+    height: 1.6rem;
+    padding-top: .213333rem;
+    display: inline-block;
+    color: darkgray;
+    text-decoration: none;
+   
+}
+.message{
+    text-align: center;
+    color: darkgray;
+    /* padding-bottom: .133333rem; */
+}
+#number{
+    width: .533333rem;
+    height: .533333rem;
+    display: inline-block;
+    border-radius: 50%;
+    font-size: .32rem;
+    background:red;
+    color: white;
+    position: absolute;
+    left: 1.333333rem;
+    top: -.053333rem;
+    display: none;
+}
+#number1{
+    width: .533333rem;
+    height: .533333rem;
+    display: inline-block;
+    border-radius: 50%;
+    font-size: .32rem;
+    background:transparent;
+    color: white;
+    position: absolute;
+    left: 143px;
+    top: 0;
+}
+#friend{
+    font-size: .64rem;
+} 
+/* .txtcolor{
+    color: green;
+} */
+
+.bottom_content li:nth-child(1) a{
+    color: rgb(255,100,60);
+}
+.bottom_content li:nth-child(1) p{
+    color: rgb(255,100,60);
+}
+.wrap{
+    width: 100%;
+    height: 17.786667rem;
+    position: fixed;
+    left: -10rem;
+    top: 0;
+    /* background: rgb(255, 255, 254); */
+    background: url(../img/banner4.jpg) no-repeat ;
+    background-size: 10rem 17.786667rem;
+    z-index: 10;
+    transition: 0.5s;
+}
+.personal_head{
+    width: 100%;
+    height: 5.333333rem;
+   background-color: rgba(255, 255, 255, 0.61);
+    background-size: 100% 100%;
+    position: relative; 
+}
+.personal_head .user_logo{
+    width: 2.666667rem;
+    height: 2.666667rem;
+    background: white;
+    /* display: inline-block; */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: .8rem;
+    top: calc(50% - 1.333333rem);
+}
+.personal_head .user_logo img{
+    width: 2.533333rem;
+    height: 2.533333rem;
+    border-radius: 50%;
+}
+.user_info{
+    width: 5.333333rem;
+    height: 2.666667rem;
+    /* background: white; */
+    position: absolute;
+    right: .8rem;
+    top: calc(50% - 1.333333rem);
+}
+.user_info h2{
+    margin-top: .266667rem;
+    font-size: .746667rem;
+    padding-left: .4rem;
+}
+.user_info input{
+    width: 5.333333rem !important;
+    margin-top: .533333rem;
+    font-size: .373333rem;
+background-color: transparent !important;
+    /* background-color: rgba(255, 255, 255, 0.555) !important; */
+    border: none !important;
+}
+.tuichu{
+    color: white;
+    font-size: .746667rem;
+    position: absolute;
+    right: .266667rem;
+    top: .266667rem;
+}
+.personal_content{
+    width: 100%;
+    height: 12.453333rem;
+    /* background-color: rgba(255, 255, 255, 0.288); */
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    /* padding-top: 1.066667rem; */
+}
+.person_list{
+    width: 100%;
+    height: 12.453333rem;
+    margin-top: .533333rem;
+}
+.person_list li{
+    width: 100%;
+    height:1.6rem;
+    background: rgba(243, 243, 243, 0.466);
+    margin-bottom: .133333rem;
+    
+}
+.person_list li a{
+    width: 100%;
+    height: 1.333333rem;
+    display: inline-block;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color:rgba(0, 0, 0, 0.767);
+    font-size: .48rem;
+    text-decoration: none
+}
+.userimg{
+    position: relative;
+}
+#userimg{
+    opacity: 0;
+    position: absolute;
+    left: -10%;
+    top: -35%;
+    font-size: 14px;
+    height: 40px;
+    border: 1px solid;
+}
+.person_list li a span{
+    margin-left: -4rem;
+}
+.right_icon{
+    font-size: .8rem !important;
+    margin-left: .733333rem;
+}
+.left_icon{
+    font-size: .8rem !important;
+    margin-right: .6rem;
+}
+.personal_head .mui-icon-closeempty{
+    font-size: 40px;
+    color: rgba(0, 0, 0, 0.767);
+}

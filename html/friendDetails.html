@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/friendDetails.css">
+</head>
+
+<body>
+    <header>
+        <img src="../img/detail.gif" alt="">
+        <a href="friendsList.html">返回</a>
+    </header>
+    <section>
+        <img src="../img/detail.jpg" alt="" class="logo">
+        <h2></h2>
+        <ul class="lise">
+            <li>性别</li>
+            <li>地区</li>
+            <li>个性签名</li>
+            <li>我的朋友圈</li>
+        </ul>
+    </section>
+    <div class="xuan"><button id="send">发消息</button><button id="delet">删除好友</button></div>
+</body>
+<script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+<script src="../js/mui.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    var ll = window.location.href;//获取当前页面的url
+    var aa = ''
+    console.log(ll);
+    //解析url
+    function parseURL(url) {
+        var url = url.split("?")[1];
+        var para = url.split("&");
+        var len = para.length;
+        var res = {};
+        var arr = [];
+        for (var i = 0; i < len; i++) {
+            arr = para[i].split("=");
+            res[arr[0]] = arr[1];
+        }
+        // console.log(1);
+        console.log(res);
+        aa = res
+    }
+    parseURL(ll);
+    aa2 = aa.q  //获取url解析出来的值
+    // console.log(aa2);
+    let friendList = localStorage.friendList ? JSON.parse(localStorage.friendList) : null;//调用localStorage.friendList
+    // console.log(friendList)
+    //过滤器
+    var data = friendList.filter(function (item) {
+        return item.user_id == aa2;
+    })
+    console.log(data);
+
+    $('h2').html(data[0].nickname)//将use_id传进h2
+    $('.logo').attr('src',`http://118.24.25.7/chat_api/${data[0].head_logo}`)
+
+    $("#send").on('click',function(){
+        location.href = `../html/chat.html?q=${data[0].user_id}`
+    })
+    //删除好友
+    let userinfo = localStorage.userinf ? JSON.parse(localStorage.userinf) : null;//将保存在localStorage.userinf转化为对象
+    let url9 = 'http://118.24.25.7/chat_api/interface/removeFriend.php';
+
+    function deletFriend() {
+        $('#delet').on('click', function () {
+            console.log(1)
+            let friend_id = $('#user_id').val()
+            $.ajax({
+                url: url9,
+                type: "POST",
+                dataType: 'json',
+                data: {
+                    user_id: userinfo.id,
+                    sign_str: userinfo.sign_str,
+                    friend_id: aa2
+                },
+                success: function (res) {
+                    console.log(res);
+                    if (res.code == 0) {
+                        console.log('删除成功')
+                        location.href = '../html/friendsList.html'
+                    }
+                },
+                error: function (res) {
+                    console.log(res);
+                }
+
+            })
+        })
+    }
+    deletFriend()
+</script>
+
+</html>

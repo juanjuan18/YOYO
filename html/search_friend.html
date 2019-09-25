@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/mui.css">
+    <link rel="stylesheet" href="../css/search_friend.css">
+</head>
+
+<body>
+    <div class="nav">
+            <div class="go_back"><a class="mui-icon  mui-icon-arrowleft" href="../html/friendsList.html"></a></div>
+            <span>添加好友</span>
+    </div>
+    
+    <div class="boxInp">
+        <span class="mui-icon mui-icon-search"></span>
+        <input id="search_username" type="text" value="" placeholder="账号/昵称">
+        <button id="search_friend">搜索</button>
+    </div>
+    
+    <ul id="newfriend">
+    </ul>
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+<script>
+    let url2 = 'http://118.24.25.7/chat_api/interface/getSearchUsers.php'
+    let userinfo = localStorage.userinf ? JSON.parse(localStorage.userinf) : null;//将保存在localStorage.userinf转化为对象
+    let friendList = localStorage.friendList ? JSON.parse(localStorage.friendList) : null;
+    function allUser() {
+        if (userinfo == null) {
+            alert('无权限')
+            return;
+        }
+        $('#search_friend').on('click', function () {
+            console.log(1)
+            $('#newfriend').empty()
+            let username1 = $('#search_username').val()
+            $.ajax({
+                url: url2,
+                type: "GET",
+                dataType: 'json',
+                data: {
+                    user_id: userinfo.id,
+                    sign_str: userinfo.sign_str,
+                    search_text: username1
+                },
+                success: function (res) {
+                    date = res.data
+                    if (res.code == 0) {
+                        let friend_id = JSON.stringify(res.data)
+                        localStorage.friend_id = friend_id
+                        // console.log(res)
+                        var kk = res.data
+                        for (const item of kk) {                           
+                            //  console.log(item.head_logo)
+                            //"url"+"(http://118.24.25.7/"+item.head_logo+")";
+                            var zz = `<li>   
+                            <div class="friendList">
+                               <span><img src="http://118.24.25.7/chat_api${item.head_logo}"></span>
+                            </div>
+                            <div class="listleft">
+                                <p>昵称：${item.nickname}</p>
+                                <p>账号：${item.username}</P>
+                            </div> 
+                                </li>`
+
+                                var cc = `<li>   
+                            <div class="friendList">
+                               <span><img src="http://118.24.25.7/${item.head_logo}"></span>
+                            </div>
+                            <div class="listleft">
+                                <p>昵称：${item.nickname}</p>
+                                <p>账号：${item.username}</P>
+                            </div> 
+                                </li>`
+
+                                if((item.head_logo).includes("/upload")){
+                            $('#newfriend').append(cc)
+                                }
+                                else{
+                                    $('#newfriend').append(zz)
+                                }
+                        }
+                    }
+                },
+                error: function (res) {
+                    console.log(res);
+                }
+            })
+        })
+        $('#newfriend').on('click', 'li', function () {
+            var t = $(this).index()
+            location.href = `./friendDetails_search.html?q=${date[t].id}`
+        })
+    }
+    allUser()
+
+    // if((friendList.head_logo).includes("/upload")){
+    //     console.log(222)
+    //                            $('span img').replaceWith('<img src="http://118.24.25.7/${item.head_logo}">')
+
+    //                         }
+    //                         else{
+    //                             $('span img').replaceWith('<img src="http://118.24.25.7/chat_api${item.head_logo}">')
+    //                         }
+</script>
+
+</html>

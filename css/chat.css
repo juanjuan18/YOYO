@@ -1,0 +1,165 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    background: none !important;
+}
+body:hover a{
+    text-decoration: none;
+}
+html{
+    /* background-color: rgb(240, 235, 235) !important; */
+    background: url(../img/6.jpg) center !important;
+    background-position-y: 0 !important;
+    background-attachment: fixed !important;
+    background-size: 100% !important;
+    /* opacity: 0.8; */
+}
+.header{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 1.066667rem;
+    line-height: 1.066667rem;
+    text-align: center;
+    background-color: white;
+}
+#back{
+    position: absolute;
+    display: inline-block;
+    left: .266667rem;
+    top: .013333rem;
+    height: 1rem;
+    line-height: 1rem;
+    color: #999999;
+}
+#back img{
+    height: 1rem;
+    width: auto;
+    vertical-align: middle;
+}
+#nickname{
+    font-size: .48rem;
+    color: #666666;
+}
+#setting{
+    position: absolute;
+    display: inline-block;
+    right: .266667rem;
+    top: .013333rem;
+    height: 1rem;
+    line-height: 1rem;
+    color: #999999;
+}
+#setting img{
+    height: 1rem;
+    width: auto;
+    vertical-align: middle;
+}
+.content{
+    height: 100%;
+    width: 100%;
+    margin-top: 1.333333rem;
+    margin-bottom: 1.333333rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+#friend{
+    float: left;
+    margin-top: .266667rem;
+    margin-left: .266667rem;
+    width: 100%;
+    height: auto;
+    line-height: 0.733333rem;
+}
+p{
+    background-color: white;
+    border-radius: .133333rem;
+    margin-top: .2rem !important;
+    max-width: 5rem;
+    padding: .213333rem !important;
+    /* word-wrap: break-word;
+    word-break: break-all;  */
+    /* overflow: hidden; */
+    /* padding: .266667rem .4rem; */
+}
+p span{
+    /* margin: .4rem;
+    display: inline-block; */
+    padding: .266667rem .4rem;
+    word-wrap: break-word;
+    word-break: break-all;
+    overflow: hidden;
+    max-width: 4.2rem;
+
+}
+#friend img{
+    float: left;
+    height: 1.333333rem;
+    width: 1.333333rem;
+    border-radius: .666667rem;
+    /* background-color: white; */
+}
+#friendmessage{
+    float: left;
+    margin-left: .133333rem;
+}
+#you{
+    float: right;
+    margin-top: .266667rem;
+    margin-right: .266667rem;
+    width: 100%;
+    height: auto;
+    line-height: 0.733333rem;
+}
+#you img{
+    float: right;
+    height: 1.333333rem;
+    width: 1.333333rem;
+    border-radius: .666667rem;
+    /* background-color: white; */
+}
+
+#yourmessage{
+    float: right;
+    margin-right: .133333rem;
+}
+.bottom{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 1.333333rem;
+    line-height: 1.333333rem;
+    text-align: center;
+    background-color: #e6dfdf;
+}
+#ipt{
+    float: left;
+    margin-left: .133333rem;
+    margin-top: .133333rem;
+    height: 1.066667rem;
+    width: 80%;
+    outline: none;
+    border-radius: .533333rem;
+    border: none;
+    font-size: .426667rem;
+    background: #fff;
+    /* border: .0625rem solid #333; */
+}
+#send{
+    float: right;
+    margin-right: .133333rem;
+    margin-top: .133333rem;
+    width: 15%;
+    height: 1.066667rem;
+    background-color: rgb(243, 237, 237);
+    outline:none;
+    border: none;
+    border-radius: .066667rem;
+}
+#send img{
+    height: 1.066667rem;
+    width: auto;
+    vertical-align: middle;
+}

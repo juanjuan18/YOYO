@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/newFriend.css">
+</head>
+
+<body>
+    <div class="content">
+        <div class="nav">
+            <a href="friendsList.html" class="back">
+                <img src="../img/fanhui.png" alt="">
+            </a>
+            <p>好友申请</p>
+        </div>
+        <ul class="mui-table-view" id="list"></ul>
+    </div>
+</body>
+<script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+<script>
+
+    // 获取好友申请接口:
+    let url1 = 'http://118.24.25.7/chat_api/interface/getFriendRequests.php'
+    let userinfo = localStorage.userinf ? JSON.parse(localStorage.userinf) : null;//将保存在localStorage.userinf转化为对象
+    // console.log(userinfo.username)
+    // var $li = $('.children1').clone();
+    let $ul = $('#list');
+    // console.log($li[0])
+
+    var fousername = []
+    var focreate_time = []
+    // let number = 0
+    function getFriendApply() {
+
+        $.ajax({
+            url: url1,
+            type: "GET",
+            dataType: 'json',
+            timeout: 10000,
+            data: {
+                user_id: userinfo.id,
+                sign_str: userinfo.sign_str,
+            },
+            success: function (res) {
+                if (res.code != 0) {
+                    getFriendApply()
+                }
+                // let arr = [1,2,3,4,5,6,357137238]
+                let data = res.data;
+                for (const item of data) {
+                    let html = `<li class="children1">
+                        <img src="http://118.24.25.7/chat_api/${item.head_logo}" alt="">
+                        <div class="chulihao">
+                            <div class="childrenName">
+                                <h3>${item.nickname}</h3>
+                            </div>
+                            <div class="chuli" data-from_user_id='${item.user_id}' data-request_id='${item.request_id}'> 
+                            <button class="a1">同意</button>
+                            <button class="a1">拒绝</button>
+                            <button class="a1">拒绝且不再接受申请</button>
+                        </div>
+                        </div>
+                        <p class="date">${item.time}</p>
+                    </li>`;
+                    //用两个自定义属性获取from_user_id和request_id
+                    $ul.append($(html))
+                    
+                }
+
+
+                // getFriendApply()
+            },
+            error: function (res) {
+                console.log(2);
+                getFriendApply()
+            }
+
+        })
+
+    }
+
+    getFriendApply();
+
+
+    //处理好友申请接口：
+    let url3 = 'http://118.24.25.7/chat_api/interface/processFriendRequest.php';
+    function dealFriend() {
+        $("#list").on("click", '.a1', function () {
+            // console.log(111)
+            if ($(this).index() == 0) {
+                $(this).html('已同意')
+            } else if ($(this).index() == 1) {
+                $(this).html('已拒绝')
+            } else {
+                $(this).html('已拒绝且不再接受申请')
+            }
+            let as = $(this).index() + 1  //点击选择同意、拒绝或拒绝且不接受
+            console.log(as)
+            var l = $(this).parent('.chuli').attr('data-from_user_id')  //获取自定义的属性
+            var l2 = $(this).parent('.chuli').attr('data-request_id')
+            // console.log(l)
+
+            $.ajax({
+                url: url3,
+                type: "POST",
+                dataType: 'json',
+                data: {
+                    sign_str: userinfo.sign_str,
+                    user_id: userinfo.id,
+                    from_user_id: l,
+                    request_id: l2,
+                    process_result: as,
+                },
+                success: function (res) {
+                    console.log(res);
+                    if (res.code == 0) {
+                        console.log(res)
+                        console.log('添加成功')
+                    }
+                },
+                error: function (res) {
+                    console.log(res);
+                }
+
+            })
+        })
+        $(".a1").on('click', function () {
+            console.log(1)
+
+        })
+
+    }
+    dealFriend();
+
+
+
+</script>
+
+</html>

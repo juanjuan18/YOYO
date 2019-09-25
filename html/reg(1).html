@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>注册</title>
+</head>
+
+<body>
+    <div class="form">
+        <div class="item">
+            <input type="text" id="username"> 用户名
+        </div>
+        <div class="item">
+            <input type="password" id="pw"> 密码
+        </div>
+        <div class="item">
+            <input type="text" id="nickname"> 昵称
+        </div>
+        <div class="item">
+            <input type="file" class="file1" id="img_upload" name="file1" /> 头像
+        </div>
+        <div>
+            <button id="form_submit">提交</button>
+        </div>
+
+    </div>
+
+    <div>
+        <div class="item">
+            <input type="text" id="login_username"> 用户名
+        </div>
+        <div class="item">
+            <input type="password" id="login_pw"> 密码
+        </div>
+        <div>
+            <button id="login_submit">提交</button>
+        </div>
+    </div>
+
+    <div class="sousuo">
+        <div class="item">
+            <input type="text" id="username1"> 用户名
+        </div>
+        <div>
+            <button id="friend_submit1">提交</button>
+        </div>
+    </div>
+
+    <div class="shenqing">
+        <div class="item">
+            <input type="text" id="userid"> 用户id
+        </div>
+        <div>
+            <button id="friend_submit">提交</button>
+        </div>
+    </div>
+
+
+    <div class="form">处理好友申请
+        <div>
+            <button id="agree" class="a1">同意</button>
+        </div>
+        <div>
+            <button id="refuse" class="a1">拒绝</button>
+        </div>
+        <div>
+            <button id="refuse2" class="a1">拒绝并不接受</button>
+        </div>
+
+    </div>
+
+
+    <div class="lt">
+        <div class="item">
+            <input type="text" id="tex"> 内容
+        </div>
+        <div>
+            <button id="send">发送</button>
+        </div>
+    </div>
+
+    <div>
+        <div>
+            <input type="text" id="massige"> 信息
+        </div>
+        <div>
+            <button id="friend_massige">发送</button>
+        </div>
+    </div>
+
+    <div>
+        <div>
+            <input type="text" id="user_id"> 用户id
+        </div>
+        <div>
+            <button id="delet">删除</button>
+        </div>
+    </div>
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+<script>
+    //注册用户接口:
+    $('#form_submit').on('click', function () {
+        var formData = new FormData();//初始化一个FormData对象
+        formData.append("file", $('#img_upload'));//将文件塞入FormData
+        $.ajax({
+            url: "http://118.24.25.7/chat_api/interface/upload.php",
+            type: "POST",
+            data: formData,
+            processData: false,  // 告诉jQuery不要去处理发送的数据
+            contentType: false,   // 告诉jQuery不要去设置Content-Type请求头
+            success: function (responseText) {
+                alert(responseText);
+            }
+        });
+    })
+    // $(function () {
+    //     $('#form_submit').on('click', function () {
+    //         let username = $('#username').val();
+    //         let pw = $('#pw').val();
+    //         let nickname = $('#nickname').val();
+
+    //         if (!username || !pw || !nickname) {
+    //             alert('有必填项未填');
+    //             return;
+    //         }
+
+    //         $.ajax({
+    //             url: 'http://118.24.25.7/chat_api/interface/reg.php',
+    //             type: 'POST',
+    //             dataType: 'json',
+    //             data: {
+    //                 nickname: nickname,
+    //                 password: pw,
+    //                 username: username
+    //             },
+    //             success:function(res){
+    //                 console.log(res)
+    //                 if(res.code==0){
+    //                     if(confirm('注册成功，是否跳转到登陆页面')){
+    //                         location.href="../index.html"
+    //                     }
+    //                 } else{
+    //                     alert(res.msg);
+    //                 }
+    //             },
+    //             error: function(res){
+
+    //             }
+    //         })
+    //     })
+    // })
+
+    // 用户登录接口:
+    $(function () {
+        $('#login_submit').on('click', function () {
+            let login_username = $('#login_username').val();
+            let login_pw = $('#login_pw').val();
+            // let nickname = $('#nickname').val();
+
+
+            if (!login_username || !login_pw) {
+                alert('有必填项未填');
+                return;
+            }
+
+            $.ajax({
+                url: 'http://118.24.25.7/chat_api/interface/login.php',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    password: login_pw,
+                    username: login_username
+                },
+                success: function (res) {
+                    console.log(res)
+                    let userinf = JSON.stringify(res.data)//将data的对象保存在localStorage的userinf里转换为字符串
+                    localStorage.userinf = userinf
+
+                    if (res.code == 0) {
+                        console.log('登录成功')
+
+
+
+                    } else {
+                        alert(res.msg);
+                    }
+                },
+                error: function (res) {
+
+                }
+            })
+        })
+    })
+
+    // 搜索用户接口:
+    let url2 = 'http://118.24.25.7/chat_api/interface/getSearchUsers.php'
+    let userinfo = localStorage.userinf ? JSON.parse(localStorage.userinf) : null;//将保存在localStorage.userinf转化为对象
+    function allUser() {
+        // let userinfo=localStorage.userinf? JSON.parse(localStorage.userinf):null;
+
+        if (userinfo == null) {
+            alert('无权限')
+            return;
+        }
+        $('#friend_submit1').on('click', function () {
+            let username1 = $('#username1').val()
+            $.ajax({
+                url: url2,
+                type: "GET",
+                dataType: 'json',
+                data: {
+                    user_id: userinfo.id,
+                    sign_str: userinfo.sign_str,
+                    search_text: username1
+                },
+                success: function (res) {
+                    console.log(res);
+                    if (res.code == 0) {
+                        console.log(18)
+                    }
+                },
+                error: function (res) {
+                    console.log(res);
+                }
+
+            })
+
+        })
+    }
+    allUser()
+
+    //申请好友接口:
+    let url = 'http://118.24.25.7/chat_api/interface/addFriend.php';
+
+    function applyFriend(url) {
+        $('#friend_submit').on('click', function () {
+            let friend_user_id = $('#userid').val()
+            $.ajax({
+                url: url,
+                type: "POST",
+                dataType: 'json',
+                data: {
+                    user_id: userinfo.id,
+                    sign_str: userinfo.sign_str,
+                    friend_user_id: friend_user_id
+                },
+                success: function (res) {
+                    console.log(res);
+                    if (res.code == 0) {
+                        console.log('申请好友成功')
+                    }
+                },
+                error: function (res) {
+                    console.log(res);
+                }
+
+            })
+        })
+    }
+    applyFriend(url)
+
+    // 获取好友申请接口: 
+    let url1 = ' http://118.24.25.7/chat_api/interface/getFriendRequests.php'
+
+    function getFriendApply() {
+        $.ajax({
+            url: url1,
+            type: "POST",
+            dataType: 'json',
+            timeout: 10000,
+            data: {
+                user_id: userinfo.id,
+                sign_str: userinfo.sign_str,
+            },
+            success: function (res) {
+                console.log(res);
+                if (res.code == 0) {
+                    console.log(res)
+                    console.log('新朋友')
+                }
+
+                applyFriend(url)
+            },
+            error: function (res) {
+                console.log(res);
+                applyFriend(url1)
+            }
+
+        })
+    }
+
+    getFriendApply();
+
+    //处理好友申请接口：
+    let url3 = 'http://118.24.25.7/chat_api/interface/processFriendRequest.php';
+    function dealFriend() {
+
+        $(".a1").on('click', function () {
+            let as = $(this).index() + 1 //点击选择同意、拒绝或拒绝且不接受
+            $.ajax({
+                url: url3,
+                type: "POST",
+                dataType: 'json',
+                data: {
+                    sign_str: userinfo.sign_str,
+                    user_id: userinfo.id,
+                    from_user_id: 18,
+                    request_id: 18,
+                    process_result: as,
+                },
+                success: function (res) {
+                    console.log(res);
+                    if (res.code == 0) {
+                        console.log(res)
+                        console.log('添加成功')
+                    }
+                },
+                error: function (res) {
+                    console.log(res);
+                }
+
+            })
+        })
+
+    }
+    dealFriend();
+
+    //发送消息接口：
+    let url4 = 'http://118.24.25.7/chat_api/interface/sendMessage.php'
+    function sendMessage() {
+        $('#send').on('click', function () {
+            let tex = $('#tex').val()
+            $.ajax({
+                url: url4,
+                type: "POST",
+                dataType: 'json',
+                data: {
+                    sign_str: userinfo.sign_str,
+                    user_id: userinfo.id,
+                    receive_user_id: 16,
+                    message: tex
+                },
+                success: function (res) {
+                    console.log(res);
+                    if (res.code == 0) {
+                        console.log(res)
+                        console.log('发送成功')
+                        localStorage.tex = tex
+
+                    }
+                },
+                error: function (res) {
+                    console.log(res);
+                }
+
+            })
+        })
+
+
+    }
+    sendMessage()
+
+    // 获取消息接口:
+    let url5 = 'http://118.24.25.7/chat_api/interface/getMessages.php'
+    function getMessage() {
+        $.ajax({
+            url: url5,
+            type: "GET",
+            dataType: 'json',
+            // timeout:10000,
+            data: {
+                sign_str: userinfo.sign_str,
+                user_id: userinfo.id,
+            },
+            success: function (res) {
+                console.log(res);
+                if (res.code == 0) {
+                    console.log(res)
+                    console.log('收到')
+                    getMessage()
+                }
+            },
+            error: function (res) {
+                console.log(res);
+                getMessage()
+            }
+
+        })
+
+    }
+    getMessage()
+
+    //登出接口:
+    // let url6 = 'http://118.24.25.7/chat_api/interface/logout.php'
+    // function logout() {
+    //     $.ajax({
+    //         url: url6,
+    //         type: "POST",
+    //         dataType: 'json',
+    //         // timeout:10000,
+    //         data: {
+    //             sign_str: userinfo.sign_str,
+    //             user_id: userinfo.id,
+    //         },
+    //         success: function (res) {
+    //             console.log(res);
+    //             if (res.code == 0) {
+    //                 console.log(res)
+    //                 console.log('退出')
+    //                 localStorage.clear()
+    //             }
+    //         },
+    //         error: function (res) {
+    //             console.log(res);
+    //         }
+
+    //     })
+
+    // }
+    // logout()
+
+
+    //获取用户信息:
+    let url7 = 'http://118.24.25.7/chat_api/interface/getUserInfo.php';
+
+    function getUserInfo() {
+        $('#friend_massige').on('click', function () {
+            console.log(1)
+            let friend_id = $('#massige').val()
+            $.ajax({
+                url: url7,
+                type: "GET",
+                dataType: 'json',
+                data: {
+                    user_id: userinfo.id,
+                    sign_str: userinfo.sign_str,
+                    friend_id: friend_id
+                },
+                success: function (res) {
+                    console.log(res);
+                    if (res.code == 0) {
+                        console.log('获取成功')
+                    }
+                },
+                error: function (res) {
+                    console.log(res);
+                }
+
+            })
+        })
+    }
+    getUserInfo()
+
+
+    //图片上传:
+    // let url8 = 'http://118.24.25.7/chat_api/interface/upload.php'
+    // function images() {
+    //     $.ajax({
+    //         url: url8,
+    //         type: "POST",
+    //         dataType: 'json',
+    //         // timeout:10000,
+    //         data: {
+    //             file: 'img/'
+    //         },
+    //         success: function (res) {
+    //             console.log(res);
+    //             if (res.code == 0) {
+    //                 console.log(res)
+    //                 console.log('上传成功')
+    //             }
+    //         },
+    //         error: function (res) {
+    //             console.log(res);
+    //         }
+
+    //     })
+
+    // }
+    // images()
+
+    //删除好友接口:
+    let url9 = 'http://118.24.25.7/chat_api/interface/removeFriend.php';
+
+    function deletFriend() {
+        $('#delet').on('click', function () {
+            console.log(1)
+            let friend_id = $('#user_id').val()
+            $.ajax({
+                url: url9,
+                type: "POST",
+                dataType: 'json',
+                data: {
+                    user_id: userinfo.id,
+                    sign_str: userinfo.sign_str,
+                    friend_id: friend_id
+                },
+                success: function (res) {
+                    console.log(res);
+                    if (res.code == 0) {
+                        console.log('删除成功')
+                    }
+                },
+                error: function (res) {
+                    console.log(res);
+                }
+
+            })
+        })
+    }
+    deletFriend()
+
+
+    //获取好友列表接口：
+    let url11 = 'http://118.24.25.7/chat_api/interface/getFriends.php'
+    function friendList() {
+        $.ajax({
+            url: url11,
+            type: "GET",
+            dataType: 'json',
+            data: {
+                sign_str: userinfo.sign_str,
+                user_id: userinfo.id
+            },
+            success: function (res) {
+                console.log(res);
+                if (res.code == 0) {
+                    console.log(res)
+                    console.log('获取好友列表成功')
+                }
+            },
+            error: function (res) {
+                console.log(res);
+            }
+
+        })
+
+    }
+    friendList()
+
+
+
+
+
+
+</script>
+
+</html>

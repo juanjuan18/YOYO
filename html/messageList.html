@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/head_bottom.css">
+    <link rel="stylesheet" href="../css/iconfont.css">
+    <link rel="stylesheet" href="../css/mui.css">
+    <link rel="stylesheet" href="../css/messageList.css">
+    <!-- <script src="../js/messageList.js"></script> -->
+
+</head>
+
+<body>
+    <header>
+        <div class="container head_content">
+            <div href="" class="user_head_pic"><img src="" alt="" class="head_logo"></div>
+            <span>消息</span>
+            <a href="" class="mui-icon mui-icon-bars"></a>
+        </div>
+    </header>
+    <div class="zhanwei"></div>
+    <section>
+        <div class="message_list_head">
+            <a href="../html/newFriend.html" class="boxInp">
+                <span class="mui-icon mui-icon-search"></span>
+                <input id="inp" type="text" value="搜索">
+            </a>
+        </div>
+        <ul class="mui-table-view">
+           
+
+        </ul>
+       
+
+    </section>
+    <footer>
+        <ul class="bottom_content">
+            <li>
+                <a href="messageList.html" class="txt txt1">
+                    <i class="mui-icon mui-icon-chat"></i>
+                    <p class="message">消息</p>
+                    <span id="number"></span>
+                </a>
+            </li>
+            <li>
+                <a href="friendsList.html" class="txt txt2">
+                    <i class="iconfont icon-haoyou" id="friend"></i>
+                    <p class="friend1">好友</p>
+                    <span id="number1"></span>
+                </a>
+            </li>
+            <li>
+                <a href="moments.html" class="txt txt3">
+                    <i class="mui-icon mui-icon-pengyouquan"></i>
+                    <p class="pengyouquan">朋友圈</p>
+
+                </a>
+            </li>
+            <li id="person">
+                <a href="#" class="txt txt4">
+                    <i class="mui-icon mui-icon-contact"></i>
+                    <p class="personal">个人中心</p>
+                </a>
+            </li>
+        </ul>
+    </footer>
+    <div class="wrap">
+        <div class="personal_head">
+            <a href="" class="user_logo"><img src="" alt="" class="head_logo"></a>
+            <div class="user_info">
+                <h2 class="username"></h2>
+                <input type="text" placeholder="个性签名" value="想要这样一间小木屋，夏天挫冰吃瓜，冬天围炉取暖."></input>
+            </div>
+            <div href="" class="mui-icon mui-icon-closeempty tuichu"></div>
+        </div>
+        <div class="personal_content">
+            <ul class="person_list">
+                <li>
+                    <a href="">
+                        <i class="mui-icon mui-icon-camera right_icon"></i>
+                        <span class="userimg">更改头像
+                            <input type="file" id="userimg">
+                        </span>
+                        <i class="mui-icon mui-icon-arrowright left_icon"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <i class="mui-icon mui-icon-home right_icon"></i>
+                        <span>设置</span>
+                        <i class="mui-icon mui-icon-arrowright left_icon"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <i class="mui-icon mui-icon-star right_icon"></i>
+                        <span>设置</span>
+                        <i class="mui-icon mui-icon-arrowright left_icon"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <i class="mui-icon mui-icon-help right_icon"></i>
+                        <span>设置</span>
+                        <i class="mui-icon mui-icon-arrowright left_icon"></i>
+                    </a>
+                </li>
+                <li id="logout">
+                    <a href="#">
+                        <i class="mui-icon mui-icon-gear right_icon"></i>
+                        <span>退出登录</span>
+                        <i class="mui-icon mui-icon-arrowright left_icon"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.4/??flexible_css.js,flexible.js"></script>
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+
+<script>
+
+    $('#person').on('click', function () {
+        $('.wrap').css('left', "0")
+    })
+
+
+
+    // 登出接口:
+    $('#logout').on('click', function () {
+        console.log(111)
+        $.ajax({
+            url: 'http://118.24.25.7/chat_api/interface/logout.php',
+            type: "POST",
+            dataType: 'json',
+            data: {
+                sign_str: userinfo.sign_str,
+                user_id: userinfo.id,
+            },
+            success: function (res) {
+                console.log(res);
+                if (res.code == 0) {
+                    console.log(res)
+                    console.log('退出')
+                    localStorage.clear()
+                    location.href = "login.html"
+                }
+            },
+            error: function (res) {
+                console.log(res);
+            }
+
+        })
+    })
+
+
+
+
+    let userinfo = localStorage.userinf ? JSON.parse(localStorage.userinf) : null;
+    $('.head_logo').attr('src', `http://118.24.25.7/${localStorage.head_logo}`)//从localStorage取路径添加至图像
+
+    let url1 = 'http://118.24.25.7/chat_api/interface/getFriendRequests.php'
+
+    function getFriendApply() {
+
+        $.ajax({
+            url: url1,
+            type: "GET",
+            dataType: 'json',
+            timeout: 10000,
+            data: {
+                user_id: userinfo.id,
+                sign_str: userinfo.sign_str,
+            },
+            success: function (res) {
+                if (res.code != 0) {
+                    getFriendApply()
+                }
+                let data = res.data;
+                console.log(data)
+
+                let number = data.length
+                console.log('number' + number)
+                if (number > 0) {
+                    $('#number1').html(number)
+                    // $('#number1').html('')
+                    $('#number1').css('background', 'red')
+                }
+            },
+            error: function (res) {
+                // console.log(2);
+                getFriendApply()
+            }
+
+        })
+
+    }
+
+    getFriendApply();
+
+    $('.user_head_pic').on('click', function () {
+        $('.wrap').css({
+            'z-index': 10,
+            left: 0
+        })
+    })
+    $('.tuichu').on('click', function () {
+        $('.wrap').css('left', "-10rem")
+    })
+    var us_info = localStorage.userinf ? JSON.parse(localStorage.userinf) : {}
+    $('.username').text(us_info.nickname)
+    // $('.head_logo').attr("src",'118.24.25.7/chat_api/image'+ us_info.head_logo);    
+
+
+
+    let messArr = []
+    // 获取消息接口:
+    let url5 = 'http://118.24.25.7/chat_api/interface/getMessages.php'
+    function getMessage() {
+        $.ajax({
+            url: url5,
+            type: "GET",
+            dataType: 'json',
+            // timeout:10000,
+            data: {
+                sign_str: us_info.sign_str,
+                user_id: us_info.id,
+            },
+            success: function (res) {
+                // getChatHistory();
+                getMessage();
+            },
+            error: function (res) {
+                // console.log(res);
+                getMessage()
+            }
+
+        })
+
+    }
+    getMessage();
+
+
+
+    let url8 = 'http://118.24.25.7/chat_api/interface/upload.php'
+    $('#userimg').on('change', function () {
+        let file = this
+        if (!file.files || !file.files[0]) {
+            return
+        }
+        let ss = new FormData()
+        ss.append('file', file.files[0])
+        $.ajax({
+            url: url8,
+            type: "POST",
+            dataType: 'json',
+            data: ss,
+            processData: false,
+            contentType: false,
+            success: function (res) {
+                if (res.code == 200) {
+                    console.log(res)
+                    $('.head_logo').attr('src', `http://118.24.25.7${res.data.path}`)
+                    localStorage.setItem('head_logo', `${res.data.path}`);
+                    console.log(localStorage.head_logo)
+                    console.log('上传成功')
+                }
+            },
+            error: function (res) {
+                console.log(res);
+            }
+
+        })
+
+    })
+
+    var date = ''
+    //获取好友列表接口：
+    let url11 = 'http://118.24.25.7/chat_api/interface/getFriends.php'
+    function friendList() {
+        $.ajax({
+            url: url11,
+            type: "GET",
+            dataType: 'json',
+            data: {
+                sign_str: userinfo.sign_str,
+                user_id: userinfo.id
+            },
+            success: function (res) {
+                date = res.data
+                localStorage.friendList = JSON.stringify(date);
+            },
+            error: function (res) {
+                // console.log(res);
+            }
+
+        })
+
+
+    }
+    friendList()
+    let num = [];
+    let sum = 0;
+    let messnumber = 0
+    date = localStorage.friendList ? JSON.parse(localStorage.friendList) : {}
+    // for (var i = 0; i < date.length; i++) {
+    //     console.log(date[i].user_id)
+    // }
+    //获取历史消息记录:
+
+    // Date.prototype.Format = function (fmt) {
+    //     //author:wangweizhen
+    //     var o = {
+    //         "M+": this.getMonth() + 1,                 //月份   
+    //         "d+": this.getDate(),                    //日
+    //         "h+": this.getHours(),                   //小时   
+    //         "m+": this.getMinutes(),                 //分   
+    //         "s+": this.getSeconds(),                 //秒   
+    //         "q+": Math.floor((this.getMonth() + 3) / 3), //季度   
+    //         "S": this.getMilliseconds()             //毫秒   
+    //     };
+    //     if (/(y+)/.test(fmt))
+    //         fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    //     for (var k in o)
+    //         if (new RegExp("(" + k + ")").test(fmt))
+    //             fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    //     return fmt;
+    // };
+    let history = []
+    let id = [];
+    let url13 = 'http://118.24.25.7/chat_api/interface/getChatHistory.php'
+    function getChatHistory() {
+        // console.log(1)
+        var message_arr = [];
+        for (var i = 0; i < date.length; i++) {
+            friend_id = date[i].user_id
+            $.ajax({
+                url: url13,
+                type: "GET",
+                dataType: 'json',
+                async: false,//同步
+                data: {
+                    sign_str: userinfo.sign_str,
+                    user_id: userinfo.id,
+                    friend_id: friend_id
+                },
+                success: function (res) {
+                    if (res.data.length == 0) {
+                        return false;;
+                    } else if (res.data.length > 0) {
+                        // history.push(res.data);
+                        // localStorage.history = JSON.stringify(history)
+                        if (res.code == 0) {
+                            message_arr.push(res.data);
+                        }
+                    }
+                }
+            })
+        }
+        var html = "";
+        var new_message_arr = [];
+        // console.log(message_arr);
+        for (var i = 0; i < message_arr.length; i++) {
+            var message_in = message_arr[i];
+            var message_sort = message_in.sort((a, b) => b.message_send_time - a.message_send_time);//获取每个好友的最新时间
+            var message_new = message_sort[0];//获取时间最大的一条
+            var message_number = message_in.length;//获取聊天条数（当前好友）
+            message_new['count'] = message_number;
+            new_message_arr.push(message_new);
+        }
+        $('.mui-table-view').html(html);
+        page_render(new_message_arr);//页面渲染
+    }
+    //获取昵称
+    function get_nickname(user_id) {
+        for (var i in date) {
+            if (date[i]['user_id'] == user_id) {
+                return date[i]['nickname'];
+            }
+        }
+    }
+    //页面渲染
+    function page_render(arr) {
+        var arr = arr.sort((a, b) => b.message_send_time - a.message_send_time);//所有好友最新消息排序
+        // console.log(arr);
+        var html = '';
+        for (var i = 0; i < arr.length; i++) {
+            if (arr[i]['user_id'] == userinfo.id) {
+                var nickname = get_nickname(arr[i]['receive_user_id']);//获取昵称
+                var tim=parseInt(arr[i]['message_send_time'])
+                // console.log(tim)
+                var date = new Date(tim)
+                // console.log(date.getHours())
+                // var src=localStorage.friendList[0].head_logo
+                // console.log(src)
+                html += `
+                <li class="mui-table-view-cell mui-media">
+                    <a href="chat.html?q=${arr[i]['receive_user_id']}" class="list">
+                        <img class="mui-media-object mui-pull-left" src="../img/head.jpg">
+                        <div class="mui-media-body">
+                            <h2>${nickname}</h2>
+                            <p class='mui-ellipsis'>${arr[i]['message']}</p>
+                        </div>
+                        <span class="time">${date.getHours()+':'+date.getMinutes()+':'+date.getSeconds()}</span>
+                        <span class="mui-badge mui-badge-danger" id="jiaobiao">${arr[i]['count']}</span>
+                    </a>
+                </li>
+            `
+            } else {
+                var nickname = get_nickname(arr[i]['user_id']);//获取昵称
+                var tim=parseInt(arr[i]['message_send_time'])
+                // console.log(tim)
+                var date = new Date(tim)
+                html += `
+                <li class="mui-table-view-cell mui-media">
+                    <a href="chat.html?q=${arr[i]['user_id']}" class="list">
+                        <img class="mui-media-object mui-pull-left" src="../img/head.jpg">
+                        <div class="mui-media-body">
+                            <h2>${nickname}</h2>
+                            <p class='mui-ellipsis'>${arr[i]['message']}</p>
+                        </div>
+                        <span class="time">${date.getHours()+':'+date.getMinutes()+':'+date.getSeconds()}</span>
+                        <span class="mui-badge mui-badge-danger" id="jiaobiao">${arr[i]['count']}</span>
+                    </a>
+                </li>
+            `
+            }
+            // var date = new Date(arr[i]['message_send_time']);
+            // date.Format("yyyy-MM-dd hh:mm:ss");
+            // console.log(date);
+            num[i] = arr[i]['count'];
+            sum = eval(num.join("+"));
+        }
+        $('#number').css('display', 'block').html(sum);
+        $('.mui-table-view').html(html);
+    }
+    getChatHistory()
+    setInterval(getChatHistory, 2000)
+
+
+    // function getChatHistory() {
+    //     for (var i = 0; i < date.length; i++) {
+    //         friend_id = date[i].user_id
+    //         let j = i;
+    //         $.ajax({
+    //             url: url13,
+    //             type: "GET",
+    //             dataType: 'json',
+    //             data: {
+    //                 sign_str: userinfo.sign_str,
+    //                 user_id: userinfo.id,
+    //                 friend_id: friend_id
+    //             },
+    //             success: function (res) {
+    //                 console.log(res);return false;
+    //                 if (res.data == []) {
+    //                     return;
+    //                 } else if (res.data != []) {
+    //                     history.push(res.data);
+    //                     localStorage.history = JSON.stringify(history)
+    //                     if (res.code == 0) {
+    //                         var mss1 = history[j]
+    //                         if (mss1 != []) {
+    //                             var msgHtml = `
+    //                                 <li class="mui-table-view-cell mui-media">
+    //                                     <a href="chat.html?q=${date[j].user_id}" class="list">
+    //                                         <img class="mui-media-object mui-pull-left" src="../img/user_head1.jpg">
+    //                                         <div class="mui-media-body">
+    //                                             <h2>${date[j].nickname}</h2>
+    //                                             <p class='mui-ellipsis'>${mss1[mss1.length - 1].message}</p>
+    //                                         </div>
+    //                                         <span class="time">${(mss1[mss1.length - 1].message_send_time)}</span>
+    //                                         <span class="mui-badge mui-badge-danger" id="jiaobiao">${history[j].length}</span>
+    //                                     </a>
+    //                                 </li>`
+    //                             messnumber += history[j].length
+    //                             $('#number').text(messnumber)
+    //                         }
+
+
+    //                         if (id.indexOf(date[j].user_id) == -1) {
+    //                             id.push(date[j].user_id);
+    //                             $('.mui-table-view').append(msgHtml);
+    //                         } else {
+    //                             return;
+    //                         }
+
+    //                         // }
+
+    //                         // for(var i=0;i<history.length;i++){
+    //                         //     var mss1=history[i]
+    //                         //     console.log(mss1[history[i].length-1])
+    //                         // }
+    //                         // if(j==date.length-1){
+    //                         //     getChatHistory();
+    //                         // }
+
+    //                     }
+    //                 }
+
+    //             },
+    //             error: function (res) {
+    //                 // console.log(res);
+    //             }
+
+    //         })
+    //     }
+
+    // }
+    // console.log(localStorage.messnumber)
+
+    // getChatHistory();
+
+
+    // var lishijilu=localStorage.history?JSON.parse(localStorage.history):{}
+    // console.log(lishijilu)
+
+
+</script>
+
+</html>
